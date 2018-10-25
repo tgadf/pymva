@@ -1,0 +1,4 @@
+NUM_X2
+NUM_X3
+IND_X4
+CAT_X5

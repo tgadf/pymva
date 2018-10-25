@@ -1,0 +1,8 @@
+models: !!python/object:__main__.classifer
+  estimator: null
+  name: test
+  params:
+    alpha:
+    - -4
+    - 4
+  tunes: []

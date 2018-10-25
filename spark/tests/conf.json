@@ -1,0 +1,152 @@
+{
+    "version": "0.2.0",
+
+    "path_to_input": "/app/ws-dev/hcaaa/users/ae00827/test-HCCs/input",
+    // "data_filename": "hcc_data.csv.gz",
+    "data_filename_on_hdfs": "/data/work/ra/HCC_data",
+    "separator": ",",
+    
+    "targets": [
+        "NUM_HCC2015_142"//,
+        // "NUM_HCC2015_88",
+        // "NUM_HCC2015_19_20_21",
+        // "NUM_HCC2015_130",
+        // "NUM_HCC2015_184",
+        // "NUM_HCC2015_161",
+        // "NUM_HCC2015_160",
+        // "NUM_HCC2015_120",
+        // "NUM_HCC2015_37",
+        // "NUM_HCC2015_48",
+        // "NUM_HCC2015_66", 
+        // "NUM_HCC2015_82",
+        // "NUM_HCC2015_30",
+        // "NUM_HCC2015_35"
+    ],
+
+    "path_to_output": "/app/ws-dev/hcaaa/users/ae00827/test-HCCs/output",
+
+    "n_jobs": 16,
+
+    "verbose": 1,
+    "random_state": 0,
+
+    "fill_values_categorical_missing": "UNK",
+
+    "test_size": 0.3,
+    "train_event_rate": 0.25,
+
+    "feature_importance": {
+        "random_forest" : {
+            "method": "random_forest",
+            "params": {
+                "n_estimators": 2000,
+                "min_samples_split": 50,
+                "min_samples_leaf": 30
+            }
+        }
+    },
+
+    "feature_selection": {
+        "feature_importance": "random_forest",
+        "which": "top",
+        "threshold": 300
+    },
+
+    "n_folds": 3,
+    "eval_metric": "roc_auc",
+
+    "models": {
+        "logistic": {
+            "method": "logistic",
+            "params": {
+                "penalty": "l1",
+                "n_iter": 5
+            },
+            "params_to_search": {
+                "alpha": [0.1, 0.01, 0.001, 0.0001, 0.00001]
+            }//,
+            // "feature_selection": {
+            //     "which": "at_least",
+            //     "threshold": 0.00001
+            // }
+        },
+        "random_forest": {
+            "method": "random_forest",
+            "params": {
+                "n_estimators": 100,
+                "min_samples_split": 50,
+                "min_samples_leaf": 30,
+                "bootstrap": false
+            },
+            "params_to_search": {
+                "max_depth": [8, 12]
+            },
+            "feature_selection": {
+                "which": "coverage",
+                "threshold": 0.95
+            }
+        },
+        "xgboost": {
+            "method": "xgboost",
+            "params": {
+                "n_estimators": 100,
+                "min_child_weight": 25,
+                "subsample": 1.0,
+                "colsample_bytree": 1.0
+            },
+            "params_to_search": {
+                "learning_rate": [0.1, 0.3],
+                "max_depth": [4, 6]
+            },
+            "feature_selection": {
+                "which": "coverage",
+                "threshold": 0.95
+            },
+            "early_stopping": {
+                "during_grid_search": true,
+                "early_stopping_rounds": 5,
+                "eval_set_size": 0.3
+            }
+        }//,
+        // "ensemble": {
+        //     "method": "ensemble",
+        //     "models": [
+        //         "logistic",
+        //         "random_forest",
+        //         "xgboost_early_stopping"
+        //     ]
+        // }
+    },
+
+    "scoring_data_colnames": "/app/ws-dev/hcaaa/users/ae00827/test-HCCs/input/colnames.txt",
+    "scoring_data_filename_on_hdfs": "/data/work/ra/HCC_data",
+    "colname_for_id": "CAT_MCID",
+    "path_to_scores_on_hdfs": "/data/work/ra/HCC_score_test",
+    "num_partitions_scoring_data": 1000,
+    "num_partitions_final_scores": 5,
+
+    "pyspark": {
+        "enviornment_variables": {
+            "HADOOP_CONF_DIR": "/etc/hadoop/conf",
+            "PYSPARK_DRIVER_PYTHON": "/app/ws-dev/hcaaa/users/ae00827/py2-mtbox/bin/python",
+            "PYSPARK_PYTHON": "/home/anaconda2/bin/python"
+        },
+        "pyspark_bin": "pyspark",
+        "options": {
+            "--master": "yarn",
+            "--num-executors": 50,
+            "--executor-memory": "8G",
+            "--executor-cores": 3,
+            "--driver-memory": "9G",
+            "--conf": {
+                "spark.driver.maxResultSize": "3G"
+            }
+        }
+    },
+
+    "bokeh_server": {
+        "address": "30.135.92.62",
+        "port": 7614,
+        "prefix": "test"
+    }
+}

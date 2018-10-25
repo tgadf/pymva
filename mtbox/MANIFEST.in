@@ -1,0 +1,8 @@
+include README.md
+include mtbox/tests/conf.json
+include mtbox/tests/input/*.txt
+include mtbox/tests/input/*.csv.gz
+include mtbox/spark/*.py
+include mtbox/bokeh/*.py
+recursive-include mtbox/dashboard *
+
