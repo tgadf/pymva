@@ -1,0 +1,27 @@
+basepath: /Users/tgadfort/Documents/pymva
+feature:
+  NAstrategy:
+    float64: mean
+    int64: zero
+    object: dummy
+  Selection:
+    criteria: percentile
+    test: chi2
+    threshold: 90
+  dropList: colData.info
+input:
+  test: null
+  train: train.csv
+  valid: test.csv
+name: mnist
+output:
+  compress: true
+  name: data.p
+performance:
+  ext: pdf
+  multipage: false
+problem: regression
+target:
+  NAstrategy: zero
+  colname: TARGET
+  positive: normal.

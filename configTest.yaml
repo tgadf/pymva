@@ -1,0 +1,13 @@
+models: !!python/object:__main__.classifer
+  estimator: !!python/object:sklearn.linear_model.base.LinearRegression
+    _sklearn_version: 0.19.1
+    copy_X: true
+    fit_intercept: true
+    n_jobs: 1
+    normalize: false
+  name: test
+  params:
+    alpha:
+    - -4
+    - 4
+  tunes: []
